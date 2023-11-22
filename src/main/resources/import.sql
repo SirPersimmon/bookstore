@@ -27,10 +27,10 @@ INSERT INTO invoices (number, date, sum) VALUES ('00003', '2023-11-13', 30.00);
 INSERT INTO invoices (number, date, sum) VALUES ('00005', '2023-11-14', 125.00);
 INSERT INTO invoices (number, date, sum) VALUES ('00006', '2023-11-15', 120.00);
 
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (1, 1, 6, 105.00, 1, 105.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (1, 2, 5, 65.00, 1, 65.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (2, 1, 1, 125.00, 1, 125.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (2, 2, 3, 100.00, 1, 100.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (3, 1, 4, 30.00, 1, 30.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (4, 1, 1, 125.00, 1, 125.00);
-INSERT INTO invoices_items (invoices_id, line_number, book_id, price, quantity, sum) VALUES (5, 1, 2, 60.00, 2, 120);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (1, 1, 6, 105.00, 1, 105.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (1, 2, 5, 65.00, 1, 65.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (2, 1, 1, 125.00, 1, 125.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (2, 2, 3, 100.00, 1, 100.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (3, 1, 4, 30.00, 1, 30.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (4, 1, 1, 125.00, 1, 125.00);
+INSERT INTO invoice_items (invoice_id, line_number, book_id, price, quantity, sum) VALUES (5, 1, 2, 60.00, 2, 120);
