@@ -30,7 +30,8 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public ReceiptDto findById(Integer id) {
-        return receiptMapper.receiptToReceiptDto(receiptRepository.findById(id).orElseThrow(() -> new NotFoundException()));
+        return receiptMapper
+                .receiptToReceiptDto(receiptRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override

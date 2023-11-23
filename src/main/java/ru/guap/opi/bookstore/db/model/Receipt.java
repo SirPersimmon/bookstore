@@ -6,7 +6,6 @@ import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,14 +26,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Receipt {
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
     private String number;
 
-    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
