@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -36,5 +37,6 @@ public class Receipt {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "receipt_items", joinColumns = @JoinColumn(name = "receipt_id"))
+    @OrderBy("lineNumber")
     private Set<ReceiptItem> itemList;
 }

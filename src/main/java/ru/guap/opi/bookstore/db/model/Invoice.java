@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -39,5 +40,6 @@ public class Invoice {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "invoice_items", joinColumns = @JoinColumn(name = "invoice_id"))
+    @OrderBy("lineNumber")
     private Set<InvoiceItem> itemList;
 }
