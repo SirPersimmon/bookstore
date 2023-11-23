@@ -1,17 +1,17 @@
 package ru.guap.opi.bookstore.service;
 
-import java.util.Optional;
+import java.util.List;
 
-import ru.guap.opi.bookstore.db.model.Book;
+import ru.guap.opi.bookstore.dto.BookDetailsDto;
 
 public interface BookService {
-    Iterable<Book> listAll();
+    List<BookDetailsDto> listAll();
 
-    Optional<Book> findById(Integer id);
+    BookDetailsDto findById(Integer id);
 
-    Book add(Book book);
+    BookDetailsDto add(BookDetailsDto bookDetailsDto);
 
-    Book update(Book book);
+    BookDetailsDto update(BookDetailsDto bookDetailsDto);
 
     void delete(Integer id);
 }

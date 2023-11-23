@@ -1,38 +1,49 @@
 package ru.guap.opi.bookstore.service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import ru.guap.opi.bookstore.controller.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.BookRepository;
 import ru.guap.opi.bookstore.db.model.Book;
+import ru.guap.opi.bookstore.dto.BookDetailsDto;
+import ru.guap.opi.bookstore.mapper.BookDetailsMapper;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookDetailsMapper bookDetailsMapper;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, BookDetailsMapper bookDetailsMapper) {
         this.bookRepository = bookRepository;
+        this.bookDetailsMapper = bookDetailsMapper;
     }
 
     @Override
-    public Iterable<Book> listAll() {
-        return bookRepository.findAll();
+    public List<BookDetailsDto> listAll() {
+        return bookRepository.findAll().stream()
+                .map(bookDetailsMapper::bookToBookDetailsDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Book> findById(Integer id) {
-        return bookRepository.findById(id);
+    public BookDetailsDto findById(Integer id) {
+        return bookDetailsMapper
+                .bookToBookDetailsDto(bookRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
-    public Book add(Book book) {
-        return bookRepository.save(book);
+    public BookDetailsDto add(BookDetailsDto bookDetailsDto) {
+        Book book = bookRepository.save(bookDetailsMapper.bookDetailsDtoToBook(bookDetailsDto));
+        return bookDetailsMapper.bookToBookDetailsDto(book);
     }
 
     @Override
-    public Book update(Book book) {
-        return bookRepository.save(book);
+    public BookDetailsDto update(BookDetailsDto bookDetailsDto) {
+        Book book = bookRepository.save(bookDetailsMapper.bookDetailsDtoToBook(bookDetailsDto));
+        return bookDetailsMapper.bookToBookDetailsDto(book);
     }
 
     @Override
