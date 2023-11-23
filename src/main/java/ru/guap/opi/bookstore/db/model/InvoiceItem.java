@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,19 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoiceItem {
-    @NotNull
     private Integer lineNumber;
 
-    @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Book book;
 
-    @NotNull
     private BigDecimal price;
 
-    @NotNull
     private Integer quantity;
 
-    @NotNull
     private BigDecimal sum;
 }
