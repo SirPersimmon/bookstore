@@ -1,3 +1,6 @@
+INSERT INTO users (username, password, enabled, role) VALUES ('admin', '$2a$10$Ndd7tm.E0npPIyi2w4kYl.ExtGKxS9NXtfU6TnZX4ZgpHSQ3jnzXK', TRUE, 'ROLE_ADMIN');
+INSERT INTO users (username, password, enabled, role) VALUES ('user', '$2a$10$RnVDpXh7/sJ2YXu1T4zCI.5FFvMMULG9RX4ibbwfzE7p97vWW0QMe', TRUE, 'ROLE_USER');
+
 INSERT INTO books (isbn, author, title, price) VALUES ('978-1-84384-226-2', 'Norris J. Lacy', 'Lancelot-Grail', 125.00);
 INSERT INTO books (isbn, author, title, price) VALUES ('978-1-61720-586-6', 'Chretien DeTroys', 'Four Arthurian Romances - Lancelot', 60.00);
 INSERT INTO books (isbn, author, title, price) VALUES ('978-0-00848-553-5', 'Jessie Weston', 'Sir Gawain and the Green Knight', 100.00);
