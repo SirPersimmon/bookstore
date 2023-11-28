@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import ru.guap.opi.bookstore.controller.NotFoundException;
+import ru.guap.opi.bookstore.exception.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.UserRepository;
 import ru.guap.opi.bookstore.db.model.User;
 import ru.guap.opi.bookstore.dto.UserDto;

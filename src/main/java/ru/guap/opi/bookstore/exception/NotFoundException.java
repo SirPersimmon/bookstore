@@ -1,4 +1,4 @@
-package ru.guap.opi.bookstore.controller;
+package ru.guap.opi.bookstore.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
