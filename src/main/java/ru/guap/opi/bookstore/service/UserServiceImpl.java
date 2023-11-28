@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> listAll() {
+    public List<UserDto> findAll() {
         return userRepository.findAll().stream()
                 .map(userMapper::userToUserDto)
                 .collect(Collectors.toList());
@@ -36,18 +36,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto add(UserDto userDto) {
+        userDto.setId(null);
         User user = userRepository.save(userMapper.userDtoToUser(userDto));
         return userMapper.userToUserDto(user);
     }
 
     @Override
-    public UserDto update(UserDto userDto) {
+    public UserDto update(Integer id, UserDto userDto) {
+        if (!userRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
+        userDto.setId(id);
         User user = userRepository.save(userMapper.userDtoToUser(userDto));
         return userMapper.userToUserDto(user);
     }
 
     @Override
     public void delete(Integer id) {
+        if (!userRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
         userRepository.deleteById(id);
     }
 }

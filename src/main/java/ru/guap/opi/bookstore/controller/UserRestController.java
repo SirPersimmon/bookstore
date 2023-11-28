@@ -1,5 +1,8 @@
 package ru.guap.opi.bookstore.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,29 +26,28 @@ public class UserRestController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> browse() {
-        return ResponseEntity.ok(userService.listAll());
+    public ResponseEntity<List<UserDto>> list() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> get(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(userService.findById(id));
+    public ResponseEntity<UserDto> get(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "", consumes = "application/json")
-    public ResponseEntity<Object> add(@RequestBody UserDto userDto) {
-        userDto.setId(null);
-        return ResponseEntity.ok(userService.add(userDto));
+    public ResponseEntity<UserDto> add(@RequestBody UserDto userDto) {
+        return new ResponseEntity<>(userService.add(userDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody UserDto userDto) {
-        userDto.setId(id);
-        return ResponseEntity.ok(userService.update(userDto));
+    public ResponseEntity<UserDto> update(@PathVariable("id") Integer id, @RequestBody UserDto userDto) {
+        return new ResponseEntity<>(userService.update(id, userDto), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<UserDto> delete(@PathVariable("id") Integer id) {
         userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
