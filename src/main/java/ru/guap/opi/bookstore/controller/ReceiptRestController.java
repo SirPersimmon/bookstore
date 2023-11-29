@@ -1,5 +1,8 @@
 package ru.guap.opi.bookstore.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,28 +26,28 @@ public class ReceiptRestController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> browse() {
-        return ResponseEntity.ok(receiptService.listAll());
+    public ResponseEntity<List<ReceiptDto>> list() {
+        return new ResponseEntity<>(receiptService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> get(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(receiptService.findById(id));
+    public ResponseEntity<ReceiptDto> get(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(receiptService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "", consumes = "application/json")
-    public ResponseEntity<Object> add(@RequestBody ReceiptDto receiptDto) {
-        return ResponseEntity.ok(receiptService.add(receiptDto));
+    public ResponseEntity<ReceiptDto> add(@RequestBody ReceiptDto receiptDto) {
+        return new ResponseEntity<>(receiptService.add(receiptDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody ReceiptDto receiptDto) {
-        receiptDto.setId(id);
-        return ResponseEntity.ok(receiptService.update(receiptDto));
+    public ResponseEntity<ReceiptDto> update(@PathVariable("id") Integer id, @RequestBody ReceiptDto receiptDto) {
+        return new ResponseEntity<>(receiptService.update(id, receiptDto), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<ReceiptDto> delete(@PathVariable("id") Integer id) {
         receiptService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

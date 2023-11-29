@@ -22,7 +22,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public List<ReceiptDto> listAll() {
+    public List<ReceiptDto> findAll() {
         return receiptRepository.findAll().stream()
                 .map(receiptMapper::receiptToReceiptDto)
                 .collect(Collectors.toList());
@@ -36,18 +36,28 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public ReceiptDto add(ReceiptDto receiptDto) {
+        receiptDto.setId(null);
         Receipt receipt = receiptRepository.save(receiptMapper.receiptDtoToReceipt(receiptDto));
         return receiptMapper.receiptToReceiptDto(receipt);
     }
 
     @Override
-    public ReceiptDto update(ReceiptDto receiptDto) {
+    public ReceiptDto update(Integer id, ReceiptDto receiptDto) {
+        if (!receiptRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
+        receiptDto.setId(id);
         Receipt receipt = receiptRepository.save(receiptMapper.receiptDtoToReceipt(receiptDto));
         return receiptMapper.receiptToReceiptDto(receipt);
     }
 
     @Override
     public void delete(Integer id) {
+        if (!receiptRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
         receiptRepository.deleteById(id);
     }
 }

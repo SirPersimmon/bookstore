@@ -5,13 +5,13 @@ import java.util.List;
 import ru.guap.opi.bookstore.dto.ReceiptDto;
 
 public interface ReceiptService {
-    List<ReceiptDto> listAll();
+    List<ReceiptDto> findAll();
 
     ReceiptDto findById(Integer id);
 
     ReceiptDto add(ReceiptDto receiptDto);
 
-    ReceiptDto update(ReceiptDto receiptDto);
+    ReceiptDto update(Integer id, ReceiptDto receiptDto);
 
     void delete(Integer id);
 }
