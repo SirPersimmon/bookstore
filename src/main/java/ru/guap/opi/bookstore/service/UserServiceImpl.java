@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ru.guap.opi.bookstore.exception.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.UserRepository;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
                 .map(userMapper::userToUserDto)
@@ -29,12 +31,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDto findById(Integer id) {
         return userMapper
                 .userToUserDto(userRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
+    @Transactional
     public UserDto add(UserDto userDto) {
         userDto.setId(null);
         User user = userRepository.save(userMapper.userDtoToUser(userDto));
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto update(Integer id, UserDto userDto) {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException();
@@ -53,6 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException();

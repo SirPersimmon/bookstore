@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ru.guap.opi.bookstore.exception.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.BookRepository;
@@ -22,6 +23,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookDetailsDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(bookDetailsMapper::bookToBookDetailsDto)
@@ -29,12 +31,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BookDetailsDto findById(Integer id) {
         return bookDetailsMapper
                 .bookToBookDetailsDto(bookRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
+    @Transactional
     public BookDetailsDto add(BookDetailsDto bookDetailsDto) {
         bookDetailsDto.setId(null);
         Book book = bookRepository.save(bookDetailsMapper.bookDetailsDtoToBook(bookDetailsDto));
@@ -42,6 +46,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDetailsDto update(Integer id, BookDetailsDto bookDetailsDto) {
         if (!bookRepository.existsById(id)) {
             throw new NotFoundException();
@@ -53,6 +58,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if (!bookRepository.existsById(id)) {
             throw new NotFoundException();

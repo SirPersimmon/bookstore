@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ru.guap.opi.bookstore.exception.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.InvoiceRepository;
@@ -22,6 +23,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InvoiceDto> findAll() {
         return invoiceRepository.findAll().stream()
                 .map(invoiceMapper::invoiceToInvoiceDto)
@@ -29,12 +31,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public InvoiceDto findById(Integer id) {
         return invoiceMapper
                 .invoiceToInvoiceDto(invoiceRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
+    @Transactional
     public InvoiceDto add(InvoiceDto invoiceDto) {
         invoiceDto.setId(null);
         Invoice invoice = invoiceRepository.save(invoiceMapper.invoiceDtoToInvoice(invoiceDto));
@@ -42,6 +46,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional
     public InvoiceDto update(Integer id, InvoiceDto invoiceDto) {
         if (!invoiceRepository.existsById(id)) {
             throw new NotFoundException();
@@ -53,6 +58,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if (!invoiceRepository.existsById(id)) {
             throw new NotFoundException();

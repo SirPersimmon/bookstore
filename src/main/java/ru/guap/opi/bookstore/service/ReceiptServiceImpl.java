@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ru.guap.opi.bookstore.exception.NotFoundException;
 import ru.guap.opi.bookstore.db.dao.ReceiptRepository;
@@ -22,6 +23,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ReceiptDto> findAll() {
         return receiptRepository.findAll().stream()
                 .map(receiptMapper::receiptToReceiptDto)
@@ -29,12 +31,14 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ReceiptDto findById(Integer id) {
         return receiptMapper
                 .receiptToReceiptDto(receiptRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
+    @Transactional
     public ReceiptDto add(ReceiptDto receiptDto) {
         receiptDto.setId(null);
         Receipt receipt = receiptRepository.save(receiptMapper.receiptDtoToReceipt(receiptDto));
@@ -42,6 +46,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Transactional
     public ReceiptDto update(Integer id, ReceiptDto receiptDto) {
         if (!receiptRepository.existsById(id)) {
             throw new NotFoundException();
@@ -53,6 +58,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if (!receiptRepository.existsById(id)) {
             throw new NotFoundException();
