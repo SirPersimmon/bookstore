@@ -1,5 +1,8 @@
 package ru.guap.opi.bookstore.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,28 +26,28 @@ public class InvoiceRestController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> browse() {
-        return ResponseEntity.ok(invoiceService.listAll());
+    public ResponseEntity<List<InvoiceDto>> list() {
+        return new ResponseEntity<>(invoiceService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> get(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(invoiceService.findById(id));
+    public ResponseEntity<InvoiceDto> get(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(invoiceService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "", consumes = "application/json")
-    public ResponseEntity<Object> add(@RequestBody InvoiceDto invoiceDto) {
-        return ResponseEntity.ok(invoiceService.add(invoiceDto));
+    public ResponseEntity<InvoiceDto> add(@RequestBody InvoiceDto invoiceDto) {
+        return new ResponseEntity<>(invoiceService.add(invoiceDto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody InvoiceDto invoiceDto) {
-        invoiceDto.setId(id);
-        return ResponseEntity.ok(invoiceService.update(invoiceDto));
+    public ResponseEntity<InvoiceDto> update(@PathVariable("id") Integer id, @RequestBody InvoiceDto invoiceDto) {
+        return new ResponseEntity<>(invoiceService.update(id, invoiceDto), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<InvoiceDto> delete(@PathVariable("id") Integer id) {
         invoiceService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

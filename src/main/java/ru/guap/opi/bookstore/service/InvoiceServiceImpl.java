@@ -22,7 +22,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<InvoiceDto> listAll() {
+    public List<InvoiceDto> findAll() {
         return invoiceRepository.findAll().stream()
                 .map(invoiceMapper::invoiceToInvoiceDto)
                 .collect(Collectors.toList());
@@ -36,18 +36,28 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceDto add(InvoiceDto invoiceDto) {
+        invoiceDto.setId(null);
         Invoice invoice = invoiceRepository.save(invoiceMapper.invoiceDtoToInvoice(invoiceDto));
         return invoiceMapper.invoiceToInvoiceDto(invoice);
     }
 
     @Override
-    public InvoiceDto update(InvoiceDto invoiceDto) {
+    public InvoiceDto update(Integer id, InvoiceDto invoiceDto) {
+        if (!invoiceRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
+        invoiceDto.setId(null);
         Invoice invoice = invoiceRepository.save(invoiceMapper.invoiceDtoToInvoice(invoiceDto));
         return invoiceMapper.invoiceToInvoiceDto(invoice);
     }
 
     @Override
     public void delete(Integer id) {
+        if (!invoiceRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
         invoiceRepository.deleteById(id);
     }
 }
