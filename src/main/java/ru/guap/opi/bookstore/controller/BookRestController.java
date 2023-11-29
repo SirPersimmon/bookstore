@@ -1,5 +1,8 @@
 package ru.guap.opi.bookstore.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,28 +26,28 @@ public class BookRestController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> browse() {
-        return ResponseEntity.ok(bookService.listAll());
+    public ResponseEntity<List<BookDetailsDto>> list() {
+        return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> get(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(bookService.findById(id));
+    public ResponseEntity<BookDetailsDto> get(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "", consumes = "application/json")
-    public ResponseEntity<Object> add(@RequestBody BookDetailsDto bookDetailsDto) {
-        return ResponseEntity.ok(bookService.add(bookDetailsDto));
+    public ResponseEntity<BookDetailsDto> add(@RequestBody BookDetailsDto bookDetailsDto) {
+        return new ResponseEntity<>(bookService.add(bookDetailsDto), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody BookDetailsDto bookDetailsDto) {
-        bookDetailsDto.setId(id);
-        return ResponseEntity.ok(bookService.update(bookDetailsDto));
+    public ResponseEntity<BookDetailsDto> update(@PathVariable("id") Integer id, @RequestBody BookDetailsDto bookDetailsDto) {
+        return new ResponseEntity<>(bookService.update(id, bookDetailsDto), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<BookDetailsDto> delete(@PathVariable("id") Integer id) {
         bookService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

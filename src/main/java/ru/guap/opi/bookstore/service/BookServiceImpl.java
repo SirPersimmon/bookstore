@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDetailsDto> listAll() {
+    public List<BookDetailsDto> findAll() {
         return bookRepository.findAll().stream()
                 .map(bookDetailsMapper::bookToBookDetailsDto)
                 .collect(Collectors.toList());
@@ -36,18 +36,28 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDetailsDto add(BookDetailsDto bookDetailsDto) {
+        bookDetailsDto.setId(null);
         Book book = bookRepository.save(bookDetailsMapper.bookDetailsDtoToBook(bookDetailsDto));
         return bookDetailsMapper.bookToBookDetailsDto(book);
     }
 
     @Override
-    public BookDetailsDto update(BookDetailsDto bookDetailsDto) {
+    public BookDetailsDto update(Integer id, BookDetailsDto bookDetailsDto) {
+        if (!bookRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
+        bookDetailsDto.setId(id);
         Book book = bookRepository.save(bookDetailsMapper.bookDetailsDtoToBook(bookDetailsDto));
         return bookDetailsMapper.bookToBookDetailsDto(book);
     }
 
     @Override
     public void delete(Integer id) {
+        if (!bookRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
         bookRepository.deleteById(id);
     }
 }
