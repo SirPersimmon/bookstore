@@ -41,7 +41,8 @@ public class BookRestController {
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<BookDetailsDto> update(@PathVariable("id") Integer id, @RequestBody BookDetailsDto bookDetailsDto) {
+    public ResponseEntity<BookDetailsDto> update(@PathVariable("id") Integer id,
+            @RequestBody BookDetailsDto bookDetailsDto) {
         return new ResponseEntity<>(bookService.update(id, bookDetailsDto), HttpStatus.OK);
     }
 
