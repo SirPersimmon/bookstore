@@ -10,11 +10,11 @@ services:
     networks:
       - bookstore
     environment:
-      - spring.profiles.active
-      - spring.datasource.url
-      - spring.datasource.driver-class-name
-      - spring.datasource.username
-      - spring.datasource.password
+      - SPRING_PROFILES_ACTIVE
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_DRIVERCLASSNAME
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
   db:
     image: postgres:16-alpine
     restart: always
