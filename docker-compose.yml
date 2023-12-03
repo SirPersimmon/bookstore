@@ -2,32 +2,32 @@ version: "3.8"
 
 services:
   backend:
+    image: guap/bookstore-backend:0.0.1
+    build: .
+    restart: always
     depends_on:
       - db
-    build: .
-    ports:
-      - "8080:8080"
     networks:
-      - bookstore
+      - labs
     environment:
       - SPRING_PROFILES_ACTIVE
       - SPRING_DATASOURCE_URL
       - SPRING_DATASOURCE_DRIVERCLASSNAME
       - SPRING_DATASOURCE_USERNAME
-      - SPRING_DATASOURCE_PASSWORD
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     restart: always
     volumes:
-      - bookstore-db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     networks:
-      - bookstore
+      - labs
     environment:
       - POSTGRES_DB
       - POSTGRES_PASSWORD
-    expose:
-      - "5432"
 volumes:
-  bookstore-db:
+  db:
 networks:
-  bookstore:
+  labs:
