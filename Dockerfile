@@ -13,4 +13,4 @@ COPY --from=builder ${JAR_FILE} app.jar
 RUN addgroup -S javauser && adduser -S -s /bin/false -G javauser javauser
 RUN chown -R javauser:javauser /app
 USER javauser
-CMD "java" "-jar" "app.jar"
+CMD ["java", "-jar", "app.jar"]
