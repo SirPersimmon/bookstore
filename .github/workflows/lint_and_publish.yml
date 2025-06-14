@@ -3,7 +3,7 @@ name: Lint Dockerfile
 on:
   # push:
   #   paths:
-  #     - .github/workflows/lint_dockerfile.yml
+  #     - .github/workflows/lint_and_publish.yml
   workflow_dispatch:
 
 jobs:
@@ -15,3 +15,5 @@ jobs:
       uses: hadolint/hadolint-action@v3.1.0
       with:
         dockerfile: Dockerfile
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile
